@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locadora API</title>
+</head>
+<body>
+    <img src="carspin.gif" style="float: right;">
+    <h1>Estrutura da DB</h1>
+    <img src="db_struct.jpg" width="700" height="auto">
+    <h1>Instruções da API</h1>
+    <h2>Rota de Autenticação</h2>
+    <fieldset>
+        <legend style="font-size: large;"><code>POST .../api/auth/cadastro</code></legend>
+        <br>
+        Cadastra um novo usuário<br><br>
+        <strong>Entradas:</strong>
+        <pre><code>
+{
+    "nome":"Paulo",
+    "email":"paulo@example.com",
+    "senha":"123abc"
+}
+    </code></pre>
+        <strong>Saídas:</strong>
+        <pre><code>
+{
+    "cliente": {
+        "nome":"Paulo"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXV....."
+}
+    </code></pre>
+    </fieldset>
+
+    <fieldset style="margin-top: 10px;">
+        <legend style="font-size: large;"><code>POST .../api/auth/login</code></legend>
+        <br>
+        Autentica usuário existente<br><br>
+        <strong>Entradas:</strong>
+        <pre><code>
+{
+  "email":"paulo@example.com",
+  "senha":"123abc"
+}
+    </code></pre>
+        <strong>Saídas:</strong>
+        <pre><code>
+{
+    "cliente": {
+        "nome":"Paulo"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ....."
+}
+    </code></pre>
+    </fieldset>
+
+    <h2>Rota de Reservas</h2>
+
+    <fieldset>
+        <legend style="font-size: large;"><code>GET .../api/reservas</code></legend>
+        <br>
+        Retorna perfil do cliente logado (portador do <code>token</code> JWT) e suas reservas<br><br>
+        <strong>Entradas:</strong>
+        <p>Automática - <code>token</code> deve ser mandado junto com a requisição</p>
+        <strong>Saídas:</strong>
+        <pre><code>
+{
+    "cliente": {
+        "_id": "619712c7839180e807902eda",
+        "nome": "Paulo",
+        "email": "paulo@gmail.com",
+        "reservas": [
+            {
+                "status": "agendada",
+                "localDeRetirada": "Aeroporto",
+                "dataDeRetirada": "2021-12-01T00:00:00.000Z",
+                "localDeEntrega": "Aeroporto",
+                "dataDeEntrega": "2021-12-05T00:00:00.000Z",
+                "idVeiculo":"619b95abed6daf7847d56042",
+                "_id": "61979a8d67d5acc9813dcc01"
+            }
+        ]
+    }
+}
+    </code></pre>
+    </fieldset>
+
+    <fieldset style="margin-top: 10px;">
+        <legend style="font-size: large;"><code>POST .../api/reservas</code></legend>
+        <br>
+        Cria uma nova reserva para o usuário logado (portador do <code>token</code> JWT)<br><br>
+        <strong>Entradas:</strong>
+        <pre><code>
+{
+    "localDeRetirada":"Aeroporto",
+    "dataDeRetirada":"2021-12-01",
+    "localDeEntrega":"Aeroporto",
+    "dataDeEntrega":"2021-12-05",
+    "idVeiculo":"619b95abed6daf7847d56042"
+}
+    </code></pre>
+        <strong>Saídas:</strong>
+        <pre><code>
+"reserva": {
+    "localDeRetirada": "Aeroporto",
+    "dataDeRetirada": "2021-12-01T00:00:00.000Z",
+    "localDeEntrega": "Aeroporto",
+    "dataDeEntrega": "2021-12-05T00:00:00.000Z",
+    "status": "agendada",
+    "idVeiculo": "619b95abed6daf7847d56042",
+    "_id": "619c0d9faf75d396d916fa28"
+}
+    </code></pre>
+    </fieldset>
+    <fieldset style="margin-top: 10px;">
+        <legend style="font-size: large;"><code>PATCH .../api/reservas/:id</code></legend>
+        <br>
+        Atualiza dados de uma reserva especificada (id)<br><br>
+        <strong>Entradas:</strong>
+        <pre><code>
+{
+    "localDeEntrega":"Outro local"
+}
+    </code></pre>
+        <strong>Saídas:</strong>
+        <pre><code>
+{
+    "novaReserva": {
+        "localDeRetirada": "Aeroporto",
+        "dataDeRetirada": "2021-12-01T00:00:00.000Z",
+        "localDeEntrega": "Outro local",
+        "dataDeEntrega": "2021-12-05T00:00:00.000Z",
+        "status": "agendada",
+        "idVeiculo": "619b95abed6daf7847d56042",
+        "_id": "619c0d9faf75d396d916fa28"
+    }
+}
+    </code></pre>
+    </fieldset>
+    <h2>Rota de Veículos</h2>
+    <fieldset>
+        <legend style="font-size: large;"><code>GET .../api/veiculos</code></legend>
+        <br>
+        Retorna todos os veículos da base<br><br>
+        <strong>Entradas:</strong>
+        <p>Não necessário</p>
+        <strong>Saídas:</strong>
+        <pre><code>
+{
+    "veiculos": [
+        {
+            "_id": "619b95abed6daf7847d56041",
+            "fabricante": "Plymouth",
+            "modelo": "Breeze",
+            "ano": 1999,
+            "vin": "WBA6B8C58FD990243",
+            "__v": 0
+        },
+        {
+            "_id": "619b95abed6daf7847d56040",
+            "fabricante": "Kia",
+            "modelo": "Sorento",
+            "ano": 2003,
+            "vin": "1D7RB1GT3BS898825",
+            "__v": 0
+        },
+        {
+            "_id": "619b95abed6daf7847d56043",
+            "fabricante": "Mazda",
+            "modelo": "MX-5",
+            "ano": 2009,
+            "vin": "2B3CA2CV4AH395151",
+            "__v": 0
+        }
+    ]
+}
+    </code></pre>
+    </fieldset>
+    <fieldset  style="margin-top: 10px;">
+        <legend style="font-size: large;"><code>GET .../api/veiculos/:id</code></legend>
+        <br>
+        Retorna dados de um veículo especificado (id)<br><br>
+        <strong>Entradas:</strong>
+        <p>Não necessário</p>
+        <strong>Saídas:</strong>
+        <pre><code>
+{
+    "veiculo": {
+        "_id": "619b95abed6daf7847d56042",
+        "fabricante": "MINI",
+        "modelo": "Cooper",
+        "ano": 2012,
+        "vin": "1GKS1KE05CR962583",
+        "__v": 0
+    }
+}
+    </code></pre>
+    </fieldset>
+</body>
+</html>

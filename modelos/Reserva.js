@@ -35,13 +35,13 @@ const ReservaSchema = new mongoose.Schema({
         type: String,
         enum: ['agendada', 'ativa', 'completa', 'cancelada'],
         default: 'agendada'
-    }
+    },
 
-    // veiculo: {
-    //     type: mongoose.Types.ObjectId,
-    //     ref: 'Veiculo',
-    //     required: true,
-    // }
+    idVeiculo: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Veiculo',
+        required: [true, 'Um id de veículo deve ser fornecido']
+    }
 });
 
 module.exports = ReservaSchema;

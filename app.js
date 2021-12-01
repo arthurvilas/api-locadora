@@ -19,6 +19,8 @@ app.use(cors());
 app.use(xss());
 
 //// Middleware
+const cookieParser = require('cookie-parser');
+app.use(cookieParser(process.env.JWT_SECRET));
 app.use(express.json());
 const autenticarCliente = require('./middleware/authMiddleware');
 const errorHandler = require('./middleware/error-handler');
@@ -28,9 +30,9 @@ const rotaAuth = require('./rotas/auth');
 const rotaReservas = require('./rotas/reservas');
 const rotaVeiculos = require('./rotas/veiculos');
 app.use('/api/auth', rotaAuth); // Rota de Autenticação
-app.use('/api/reservas', autenticarCliente, rotaReservas); // Autenticação obrigatória
+app.use('/api/reservas', autenticarCliente, rotaReservas); // ! Autenticação obrigatória !
 app.use('/api/veiculos', rotaVeiculos);
-app.use(express.static('./public')); // Página de Instruções
+app.use(express.static('./public')); // Fornecer Frontend
 
 //// Erros
 app.use(errorHandler);

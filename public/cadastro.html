@@ -4,12 +4,16 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Locadora - Login</title>
+    <title>Locadora - Cadastro</title>
     <link rel="stylesheet" href="./main.css" />
   </head>
   <body>
     <form class="form">
-      <h4>Login</h4>
+      <h4>Cadastrar-se</h4>
+      <div class="form-row">
+        <label for="name" class="form-label">Nome</label>
+        <input type="name" class="form-input name-input" name="name" />
+      </div>
       <div class="form-row">
         <label for="email" class="form-label">Email</label>
         <input type="email" class="form-input email-input" name="email" />
@@ -25,8 +29,8 @@
       <button type="submit" class="btn btn-block submit-btn">submit</button>
     </form>
     <div class="container">
-      <a href="cadastro.html">Não possuo uma conta</a>
+      <a href="index.html">Já possuo uma conta</a>
     </div>
-    <script src="./login.js"></script>
+    <script src="./cadastro.js"></script>
   </body>
 </html>

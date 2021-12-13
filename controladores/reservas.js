@@ -1,5 +1,5 @@
 const Cliente = require('../modelos/Cliente');
-const { NotFoundError } = require('../errors');
+const { NotFoundError, BadRequestError } = require('../errors');
 
 // Retorna informações gerais do cliente e suas reservas
 const todasAsReservas = async (req, res) => {
@@ -18,6 +18,12 @@ const novaReserva = async (req, res) => {
     if (!cliente) {
         throw new NotFoundError(`Nenhum cliente com id: ${req.user.clienteId}`);
     }
+
+    const { dataDeRetirada, dataDeEntrega } = req.body;
+    if (new Date(dataDeRetirada) > new Date(dataDeEntrega)) {
+        throw new BadRequestError('Data de Entrega não pode ser anterior à Data de Retirada.');
+    }
+
     cliente.reservas.push(req.body);
     const reserva = cliente.reservas[cliente.reservas.length - 1];
     await cliente.save();

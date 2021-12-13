@@ -14,7 +14,6 @@ const ReservaSchema = new mongoose.Schema({
         min: [Date.now(), "'Data de Retirada' deve ser maior que a data atual."],
         required: true,
         trim: true
-
     },
 
     localDeEntrega: {
@@ -26,10 +25,6 @@ const ReservaSchema = new mongoose.Schema({
 
     dataDeEntrega: {
         type: Date,
-        validate: {
-            validator: (data) => data > this.dataDeRetirada,
-            message: "'Data de Entrega' deve ser maior que a data de retirada."
-        },
         required: true,
         trim: true
     },

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const validator = require('validator');
 const ReservaSchema = require('./Reserva');
 
 const ClienteSchema = new mongoose.Schema({
@@ -18,10 +19,10 @@ const ClienteSchema = new mongoose.Schema({
         trim: true,
         lowercase: true,
         unique: true,
-        match: [
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            "Email inválido."
-        ]
+        validate: {
+            validator: validator.isEmail,
+            message: 'Email inválido'
+        }
     },
 
     senha: {
